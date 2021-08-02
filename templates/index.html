@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="Mexiale" content="">
+    <meta name="keywords" content="">
+
+    <!-- Title Page-->
+    <title>Désabonnement cart App</title>
+
+    <!-- Icons font CSS-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+    <link href="{{ url_for('static', filename='vendor/mdi-font/css/material-design-iconic-font.min.css')}}" rel="stylesheet" media="all">
+    <link href="{{ url_for('static', filename='vendor/font-awesome-4.7/css/font-awesome.min.css')}}" rel="stylesheet" media="all">
+    <link href="{{ url_for('static', filename='vendor/select2/select2.min.css')}}" rel="stylesheet" media="all">
+    <link href="{{ url_for('static', filename='vendor/datepicker/daterangepicker.css') }}" rel="stylesheet" media="all">
+    <link href="{{ url_for('static', filename='css/main.css')}}" rel="stylesheet" media="all">
+</head>
+
+<body>
+    <div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
+        <div class="wrapper wrapper--w790">
+            <div class="card card-5">
+                <div class="card-heading">
+                    <h2 class="title">Formulaire du client</h2>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('predict')}}"method="post">
+                        <div class="form-row">
+                            <div class="name">Sexe</div>
+                             <div class="value">
+                                <div class="input-group">
+                                        <select name="Gender" class="input--style-2">
+                                            <option disabled="disabled" selected="selected">Choissisez le sexe du client (Ex: Feminin)</option>
+                                            <option value="0">Feminin</option>
+                                            <option value="1">Masculin</option>
+                                        </select>
+                                        <div class="select-dropdown"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="name">Age</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="Customer_Age" placeholder="Entrer l'age du client (Ex:40)" required="required">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="name">Nombre de produits</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="Total_Relationship_Count" placeholder="Nombre total de produits du client" required="required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Mois d'inactivité</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="Months_Inactive_12_mon" placeholder="Nombre de mois d'inactivité au cours (12 derniers mois)" required="required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Solde Total</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text"  name="Total_Revolving_Bal" placeholder="Solde renouvelable total" required="required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Transaction total</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="Total_Trans_Amt" placeholder="Montant total de la transaction (12 derniers mois)" required="required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Taux d'utilisation</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <input class="input--style-5" type="text" name="Avg_Utilization_Ratio" placeholder="Taux d'utilisation moyen de la carte" required="required" />
+                                </div>
+                            </div>
+                        </div>                        
+                        <div>
+                            <button class="btn btn--radius-2 btn--red" type="submit">Prédiction</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        {{ prediction_text }}
+    </div>
+    
+
+    <!-- Jquery JS-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <!-- Vendor JS-->
+    <script src="vendor/select2/select2.min.js"></script>
+    <script src="vendor/datepicker/moment.min.js"></script>
+    <script src="vendor/datepicker/daterangepicker.js"></script>
+
+    <!-- Main JS-->
+    <script src="static/js/global.js">
+
+    </script>
+
+</body>
+
+</html>
+<!-- end document-->
