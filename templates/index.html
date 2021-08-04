@@ -1,123 +1,73 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="fr">
+	<head>
+		<title>Acceuil</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../static/css/main2.css" />
+		<noscript><link rel="stylesheet" href="../static/css/noscript.css" /></noscript>
+	</head>
+	<body class="landing is-preload">
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
 
-<head>
-    <!-- Required meta tags-->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="Mexiale" content="">
-    <meta name="keywords" content="">
+				<!-- Header -->
+					<header id="header" class="alt">
+						<h1><a href="index.html">Prédiction</a></h1>
+						<nav id="nav">
+							<ul>
+								<li class="special">
+									<a href="#menu" class="menuToggle"><span>Menu</span></a>
+									<div id="menu">
+										<ul>
+											<li><a href="index.html">Acceuil</a></li>
+											<li><a href="{{ url_for('Predic_form')}}">Prédiction Formulaire</a></li>
+											<li><a href="{{ url_for('Predic_BD')}}">Prédiction Base de Données</a></li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</header>
 
-    <!-- Title Page-->
-    <title>Désabonnement cart App</title>
+				<!-- Banner -->
+					<section id="banner">
+						<div class="inner">
+							<h2>Prédiction</h2>
+							<p>Vous voulez savoir si un client va se désabonner au service de carte de crédit<br />
+							<br /></p>
+							
+							<ul class="actions special">
+								<li><a href="#menu" class="button primary">Prédire</a></li>
+							</ul>
+						</div>
+						<a href="#one" class="more scrolly">En savoir plus</a>
+					</section>
 
-    <!-- Icons font CSS-->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
-    <link href="{{ url_for('static', filename='vendor/mdi-font/css/material-design-iconic-font.min.css')}}" rel="stylesheet" media="all">
-    <link href="{{ url_for('static', filename='vendor/font-awesome-4.7/css/font-awesome.min.css')}}" rel="stylesheet" media="all">
-    <link href="{{ url_for('static', filename='vendor/select2/select2.min.css')}}" rel="stylesheet" media="all">
-    <link href="{{ url_for('static', filename='vendor/datepicker/daterangepicker.css') }}" rel="stylesheet" media="all">
-    <link href="{{ url_for('static', filename='css/main.css')}}" rel="stylesheet" media="all">
-</head>
+				<!-- Footer -->
+					<footer id="footer">
+						<ul class="icons">
+							<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+							<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+							<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+							<li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+						</ul>
+						<ul class="copyright">
+							<li>&copy; </li><li>Design: <a href="#">By Grace Mexiale</a></li>
+						</ul>
+					</footer>
 
-<body>
-    <div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
-        <div class="wrapper wrapper--w790">
-            <div class="card card-5">
-                <div class="card-heading">
-                    <h2 class="title">Formulaire du client</h2>
-                </div>
-                <div class="card-body">
-                    <form action="{{ url_for('predict')}}"method="post">
-                        <div class="form-row">
-                            <div class="name">Sexe</div>
-                             <div class="value">
-                                <div class="input-group">
-                                        <select name="Gender" class="input--style-2">
-                                            <option disabled="disabled" selected="selected">Choissisez le sexe du client (Ex: Feminin)</option>
-                                            <option value="0">Feminin</option>
-                                            <option value="1">Masculin</option>
-                                        </select>
-                                        <div class="select-dropdown"></div>
-                                </div>
-                            </div>
-                        </div>
+			</div>
 
-                        <div class="form-row">
-                            <div class="name">Age</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="text" name="Customer_Age" placeholder="Entrer l'age du client (Ex:40)" required="required">
-                                </div>
-                            </div>
-                        </div>
+		<!-- Scripts -->
+			<script src="../static/vendor/jquery/jquery.min.js"></script>
+			<script src="../static/vendor/jquery/jquery.scrollex.min.js"></script>
+			<script src="../static/vendor/jquery/jquery.scrolly.min.js"></script>
+			<script src="../static/vendor/jquery/browser.min.js"></script>
+			<script src="../static/vendor/jquery/breakpoints.min.js"></script>
+			<script src="../static/vendor/jquery/util.js"></script>
+			<script src="../static/js/main.js"></script>
 
-                        <div class="form-row">
-                            <div class="name">Nombre de produits</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="text" name="Total_Relationship_Count" placeholder="Nombre total de produits du client" required="required" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="name">Mois d'inactivité</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="text" name="Months_Inactive_12_mon" placeholder="Nombre de mois d'inactivité au cours (12 derniers mois)" required="required" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="name">Solde Total</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="text"  name="Total_Revolving_Bal" placeholder="Solde renouvelable total" required="required" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="name">Transaction total</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="text" name="Total_Trans_Amt" placeholder="Montant total de la transaction (12 derniers mois)" required="required" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="name">Taux d'utilisation</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="text" name="Avg_Utilization_Ratio" placeholder="Taux d'utilisation moyen de la carte" required="required" />
-                                </div>
-                            </div>
-                        </div>                        
-                        <div>
-                            <button class="btn btn--radius-2 btn--red" type="submit">Prédiction</button>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-        </div>
-        {{ prediction_text }}
-    </div>
-    
-
-    <!-- Jquery JS-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <!-- Vendor JS-->
-    <script src="vendor/select2/select2.min.js"></script>
-    <script src="vendor/datepicker/moment.min.js"></script>
-    <script src="vendor/datepicker/daterangepicker.js"></script>
-
-    <!-- Main JS-->
-    <script src="static/js/global.js">
-
-    </script>
-
-</body>
-
+	</body>
 </html>
-<!-- end document-->
