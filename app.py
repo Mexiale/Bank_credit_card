@@ -32,10 +32,7 @@ def home():
 
 @app.route('/predict',methods=['POST'])
 def Predict():
-    '''
-    For rendering results on HTML GUI
-    '''
-
+    
     int_features = [float(x) for x in request.form.values()]
     final_features = [np.array(int_features)]
     prediction = model.predict(final_features)
@@ -49,9 +46,6 @@ def Predict():
 
 @app.route('/predict_api',methods=['POST'])
 def predict_api():
-    '''
-    For direct API calls trought request
-    '''
     data = request.get_json(force = True)
     prediction = model.predict([np.array(list(data.values()))])
 
