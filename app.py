@@ -5,7 +5,7 @@ Author : Mexiale
 
 import numpy as np
 import pandas as pd
-from flask import Flask, request, jsonify, render_template, g
+from flask import Flask, request, jsonify, render_template, g, abort
 import pickle
 import sqlite3 as sql
 
