@@ -1,12 +1,14 @@
+<!-- Page web contenant un formulaire pour
+   la prédiction individuel d'un client  -->
+
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <!-- Required meta tags-->
+    <!--Head -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="Mexiale" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=0.7, shrink-to-fit=no">
+    <meta name="robots" content="index">
+    <meta creator="Mexiale" content="">
     <meta name="keywords" content="">
 
     <!-- Title Page-->
@@ -21,28 +23,8 @@
     <link href="../static/css/main.css" rel="stylesheet" media="all">
 </head>
 
-<body>
-
-    <!-- Header -->
-    <header id="header" class="alt">
-        <h1><a href="index.html">Prédiction</a></h1>
-        <nav id="nav">
-            <ul>
-                <li class="special">
-                    <a href="#menu" class="menuToggle"><span>Menu</span></a>
-                    <div id="menu">
-                        <ul>
-                            <li><a href="index.html">Acceuil</a></li>
-                            <li><a href="Predic_form.html">Prédiction Formulaire</a></li>
-                            <li><a href="Predic_BD.html">Prédiction Base de Données</a></li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Formulaire de prédiction -->
+<body class = "landing">
+    <!-- Formulaire de prédiction d'un seul client -->
     <div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
         <div class="wrapper wrapper--w790">
             <div class="card card-5">
@@ -115,8 +97,13 @@
                             </div>
                         </div>                        
                         <div>
-                            <button class="btn btn--radius-2 btn--red" type="submit">Prédiction</button>
+                            <button class="button primary" type="submit">Prédiction</button>
                         </div>
+                        <!-- Lien de retour vers la page d'acceuil --> 
+                        <div>
+                            <a href="\">Retour à l'acceuil</a></li>
+                        </div>
+                        
                     </form>
 
                 </div>
