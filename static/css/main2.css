@@ -158,17 +158,27 @@ input, select, textarea {
 		font-style: italic;
 	}
 
-	p {
-		margin: 0 0 2em 0;
+	h1{
+		margin-left: 100px;
+		margin-top: 10%;
+		color: #fff;
+		font-weight: 800;
+		font-size: 30px;
+	}	
+	h4 {
+		/* margin: 0 0 2em 0; */
+		margin-left: 100px;
+		margin-top: 10px;
+		/* font-size: 25px; */
 	}
 
-	h1, h2, h3, h4, h5, h6 {
+	 h2, h5, h6 {
 		color: #fff;
 		font-weight: 800;
 		letter-spacing: 0.225em;
 		line-height: 1em;
 		margin: 0 0 1em 0;
-		text-transform: uppercase;
+		
 	}
 
 		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -1755,7 +1765,7 @@ input, select, textarea {
 /* Section/Article */
 
 	section.special, article.special {
-		text-align: center;
+		text-align: left;
 	}
 
 	header p {
@@ -2415,7 +2425,7 @@ input, select, textarea {
 		background-color: transparent;
 		border-radius: 3px;
 		border: 0;
-		box-shadow: inset 0 0 0 2px #fff;
+		box-shadow: inset 0 0 0 2px #007bff;
 		color: #fff;
 		cursor: pointer;
 		display: inline-block;
@@ -3351,7 +3361,7 @@ input, select, textarea {
 		-ms-transition: -ms-transform 0.5s ease;
 		transition: transform 0.5s ease;
 		-webkit-overflow-scrolling: touch;
-		background: #21b2a6;
+		background: #04a0d9;
 		color: #ffffff;
 		height: 100%;
 		max-width: 80%;
@@ -3411,7 +3421,6 @@ input, select, textarea {
 			position: absolute;
 			right: 0;
 			top: 0;
-			vertical-align: middle;
 			width: 7em;
 		}
 
@@ -3472,12 +3481,14 @@ input, select, textarea {
 				display: block;
 				height: inherit;
 				line-height: inherit;
+				text-align: left;
 			}
 
 				@media screen and (max-width: 736px) {
 
 					#header h1 a {
-						font-size: 0.8em;
+						font-size: 1em;
+						text-align: left;
 					}
 
 				}
@@ -3572,16 +3583,16 @@ input, select, textarea {
 		-webkit-flex-direction: column;
 		-ms-flex-direction: column;
 		flex-direction: column;
-		-moz-justify-content: center;
-		-webkit-justify-content: center;
-		-ms-justify-content: center;
-		justify-content: center;
+		-moz-justify-content: left;
+		-webkit-justify-content: left;
+		-ms-justify-content: left;
+		justify-content: left;
 		cursor: default;
 		height: 100vh;
 		min-height: 35em;
 		overflow: hidden;
 		position: relative;
-		text-align: center;
+		text-align: left;
 	}
 
 		#banner h2 {
@@ -3619,7 +3630,6 @@ input, select, textarea {
 			}
 
 			#banner h2:before {
-				top: 0;
 				left: 0;
 			}
 
@@ -3629,8 +3639,7 @@ input, select, textarea {
 			}
 
 		#banner p {
-			letter-spacing: 0.225em;
-			text-transform: uppercase;
+			letter-spacing:normal;
 		}
 
 			#banner p a {
@@ -3694,7 +3703,7 @@ input, select, textarea {
 			-ms-transition-delay: 1.25s;
 			transition-delay: 1.25s;
 			content: '';
-			background: #2e3842;
+			background: #046eae;
 			display: block;
 			width: 100%;
 			height: 100%;
@@ -3750,65 +3759,6 @@ input, select, textarea {
 		opacity: 1;
 	}
 
-/* CTA */
-
-	#cta .inner {
-		display: -moz-flex;
-		display: -webkit-flex;
-		display: -ms-flex;
-		display: flex;
-		max-width: 45em;
-	}
-
-		#cta .inner header {
-			-moz-order: 1;
-			-webkit-order: 1;
-			-ms-order: 1;
-			order: 1;
-			padding-right: 3em;
-			width: 70%;
-		}
-
-			#cta .inner header p {
-				color: inherit;
-			}
-
-		#cta .inner .actions {
-			-moz-order: 2;
-			-webkit-order: 2;
-			-ms-order: 2;
-			order: 2;
-			width: 30%;
-		}
-
-		@media screen and (max-width: 980px) {
-
-			#cta .inner {
-				display: block;
-				text-align: center;
-			}
-
-				#cta .inner header {
-					padding-right: 0;
-					width: 100%;
-				}
-
-				#cta .inner .actions {
-					margin-left: auto;
-					margin-right: auto;
-					max-width: 20em;
-					width: 100%;
-				}
-
-		}
-
-		@media screen and (max-width: 736px) {
-
-			#cta .inner .actions {
-				max-width: none;
-			}
-
-		}
 
 /* Main */
 
@@ -3964,10 +3914,10 @@ input, select, textarea {
 /* Landing */
 
 	body.landing #page-wrapper {
-		background-image: -moz-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/banner.jpg");
-		background-image: -webkit-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/banner.jpg");
-		background-image: -ms-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/banner.jpg");
-		background-image: linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/banner.jpg");
+		background-image: -moz-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/sans-contact.jpg");
+		background-image: -webkit-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/sans-contact.jpg");
+		background-image: -ms-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/sans-contact.jpg");
+		background-image: linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/sans-contact.jpg");
 		background-attachment: fixed;
 		background-position: center center;
 		background-repeat: no-repeat;
@@ -3985,10 +3935,10 @@ input, select, textarea {
 
 	body.is-mobile.landing #banner,
 	body.is-mobile.landing .wrapper.style4 {
-		background-image: -moz-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/banner.jpg");
-		background-image: -webkit-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/banner.jpg");
-		background-image: -ms-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/banner.jpg");
-		background-image: linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/banner.jpg");
+		background-image: -moz-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/sans-contact.jpg");
+		background-image: -webkit-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/sans-contact.jpg");
+		background-image: -ms-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/sans-contact.jpg");
+		background-image: linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/sans-contact.jpg");
 		background-position: center center;
 		background-repeat: no-repeat;
 		background-size: cover;
