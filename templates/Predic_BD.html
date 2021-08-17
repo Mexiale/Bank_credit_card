@@ -14,8 +14,7 @@
 
 				<!-- Header -->
 					<header id="header">
-					  <form action="{{ url_for('list')}}" method="GET">	
-						<h1>Prédiction</h1>
+						<h4>Prédiction avec la Base de Données</h4>	
 						<nav id="nav">
 							<ul>
 								<li class="special">
@@ -30,58 +29,54 @@
 								</li>
 							</ul>
 						</nav>
-					</form>
 					</header>
 
 				<!-- Main -->
 					<article id="main">
 						<header>
 							<div>
-								<form class="form-inline" method="POST">
-									<label class="my-1 mr-2" for="inlineFormCustomSelectPref">Preference</label>
-									<input type="text" name ="nombre" class="form-control mb-2 mr-sm-2" id="" placeholder="Entrer le nombre de personnes">
-							  
+								<form class="form-inline" action="{{ url_for('list')}}"method="post">
+									<h1 style="color: cornflowerblue;">Preference</h1>
+									<input type="text" name="nombre" class="form" placeholder="Entrer le nombre de personnes">
+									
 								<button type="submit" class="btn btn-primary my-1">Valider</button>
 							  </form>
-							</div>
+							</div>							
 						</header>
-					</article>
-					<table>
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Gender</th>
-								<th>Customer_Age</th>
-								<th>Total_Relationship_Count</th>
-								<th>Months_Inactive_12_mon</th>
-								<th>Total_Revolving_Bal</th>
-								<th>Total_Trans_Amt</th>
-								<th>Avg_Utilization_Ratio</th>
-								<th>Attrition_Flag</th>
-								<th>Prédiction</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for data in datas %}
+						<table>
+							<thead>
 								<tr>
-									<td></td>
-									<td>{{data[0]}}</td>
-									<td>{{data[1]}}</td>
-									<td>{{data[2]}}</td>
-									<td>{{data[3]}}</td>
-									<td>{{data[4]}}</td>
-									<td>{{data[5]}}</td>
-									<td>{{data[6]}}</td>
-									<td>{{data[7]}}</td>
-									<td>{{data[8]}}</td>
+									<th>#</th>
+									<th>Gender</th>
+									<th>Customer_Age</th>
+									<th>Total_Relationship_Count</th>
+									<th>Months_Inactive_12_mon</th>
+									<th>Total_Revolving_Bal</th>
+									<th>Total_Trans_Amt</th>
+									<th>Avg_Utilization_Ratio</th>
+									<th>Attrition_Flag</th>
+									<th>Prédiction</th>
 								</tr>
-							{% endfor %}
+							</thead>
+							<tbody>
+								{% for data in datas %}
+									<tr>
+										<td></td>
+										<td>{{data[0]}}</td>
+										<td>{{data[1]}}</td>
+										<td>{{data[2]}}</td>
+										<td>{{data[3]}}</td>
+										<td>{{data[4]}}</td>
+										<td>{{data[5]}}</td>
+										<td>{{data[6]}}</td>
+										<td>{{data[7]}}</td>
+										<td>{{data[8]}}</td>
+									</tr>
+								{% endfor %}
 							
-								
-							
-						</tbody>
-					</table>
-					
+							</tbody>
+						</table>						
+					</article>
 
 				<!-- Footer -->
 					<footer id="footer">

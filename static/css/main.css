@@ -78,16 +78,17 @@
 }
 
 .form-row .name {
-  width: 125px;
-  color: #555;
+  width: 160px;
+  color: rgb(34, 10, 139);
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 800;
+  text-align: left;
 }
 
 .form-row .value {
-  width: -webkit-calc(100% - 125px);
-  width: -moz-calc(100% - 125px);
-  width: calc(100% - 125px);
+  width: -webkit-calc(80% - 90px);
+  width: -moz-calc(80% - 90px);
+  width: calc(80% - 90px);
 }
 
 @media (max-width: 767px) {
@@ -211,17 +212,17 @@ fieldset {
   border: 0;
 }
 
-button {
-  outline: none;
-  background: none;
-  border: none;
-}
+/*button {
+  outline:rgba(0, 0, 0, 0.15);
+  background:cornsilk;
+  border:crimson;
+}*/
 
 /* ==========================================================================
    #PAGE WRAPPER
    ========================================================================== */
 .page-wrapper {
-  min-height: 100vh;
+  min-height: 80vh;
 }
 
 body {
@@ -333,7 +334,7 @@ h6 {
 }
 
 .wrapper--w790 {
-  max-width: 790px;
+  max-width: 700px;
 }
 
 .wrapper--w780 {
@@ -350,7 +351,7 @@ h6 {
 .btn {
   display: inline-block;
   line-height: 50px;
-  padding: 0 50px;
+  padding: 0 30px;
   -webkit-transition: all 0.4s ease;
   -o-transition: all 0.4s ease;
   -moz-transition: all 0.4s ease;
@@ -360,7 +361,7 @@ h6 {
   text-align: center;
   text-transform: uppercase;
   font-weight: 700;
-  color: #fff;
+  color: rgb(49, 21, 150);
   font-family: inherit;
   position: relative;
   width: 200px;
@@ -721,8 +722,8 @@ input {
 }
 
 .card-5 .card-heading {
-  padding: 20px 0;
-  background: #1a1a1a;
+  padding: 15px 0;
+  background: #195c88;
   -webkit-border-top-left-radius: 10px;
   -moz-border-radius-topleft: 10px;
   border-top-left-radius: 10px;
@@ -732,7 +733,7 @@ input {
 }
 
 .card-5 .card-body {
-  padding: 80px 85px;
+  padding: 80px 60px;
   padding-bottom: 73px;
 }
 
@@ -743,10 +744,10 @@ input {
   }
 }
 body.landing {
-  background-image: -moz-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/banner.jpg");
-		background-image: -webkit-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/banner.jpg");
-		background-image: -ms-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/banner.jpg");
-		background-image: linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/banner.jpg");
+  background-image: -moz-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/background_bleu.jpg");
+		background-image: -webkit-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/background_bleu.jpg");
+		background-image: -ms-linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/background_bleu.jpg");
+		background-image: linear-gradient(top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("../images/background_bleu.jpg");
 		background-attachment: fixed;
 		background-position: center center;
 		background-repeat: no-repeat;
