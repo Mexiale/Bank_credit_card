@@ -62,7 +62,7 @@ def list():
     con.row_factory = sql.Row
     cur = con.cursor()
     cur.execute(f"select Gender, Customer_Age, Total_Relationship_Count, Months_Inactive_12_mon, Total_Revolving_Bal, Total_Trans_Amt, Avg_Utilization_Ratio, Attrition_Flag from Client_Bank ORDER BY RANDOM() LIMIT {nb}")
-    rows = cur.fetchall();
+    rows = cur.fetchall(); 
     datas = np.array(rows)
     datas = pd.DataFrame(datas, columns=['Gender', 'Customer_Age', 'Total_Relationship_Count', 'Months_Inactive_12_mon', 'Total_Revolving_Bal', 'Total_Trans_Amt', 'Avg_Utilization_Ratio', 'Attrition_Flag'])
     datas['Gender'].replace({'M': 1, 'F': 0}, inplace=True)
