@@ -1,0 +1,157 @@
+{% extends "_base.html" %}
+{% block title %}Dashboard — Bank Prediction{% endblock %}
+{% block content %}
+<div class="content">
+    <div class="card-heading" data-reveal>
+        <h2>Dashboard churn</h2>
+        <p>Vue d'ensemble du portefeuille client : risque global, segments les plus exposés, clients à traiter en priorité.</p>
+    </div>
+
+    <div class="kpi-row" data-reveal>
+        <div class="stat-tile">
+            <span class="stat-label">Total clients</span>
+            <span class="stat-value">{{ total_clients | thousands }}</span>
+        </div>
+        <div class="stat-tile">
+            <span class="stat-label">Taux de churn historique</span>
+            <span class="stat-value">{{ churn_rate }}<span class="stat-value-max">%</span></span>
+        </div>
+        <div class="stat-tile">
+            <span class="stat-label">Risque moyen prédit</span>
+            <span class="stat-value">{{ avg_risk }}<span class="stat-value-max">/100</span></span>
+        </div>
+    </div>
+
+    <div class="chart-grid" data-reveal>
+        <div class="card chart-card">
+            <h2>Taux de churn par tranche d'âge</h2>
+            <div class="chart-canvas-wrap">
+                <canvas id="chart-age"></canvas>
+            </div>
+        </div>
+        <div class="card chart-card">
+            <h2>Taux de churn par sexe</h2>
+            <div class="chart-canvas-wrap">
+                <canvas id="chart-gender"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-heading" data-reveal>
+        <h2>Top 10 clients critiques</h2>
+        <p>Les 10 clients avec le score de risque de départ le plus élevé — à prioriser pour une action de rétention.</p>
+    </div>
+
+    <div class="table-wrap" data-reveal>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Client</th>
+                    <th>Âge</th>
+                    <th>Sexe</th>
+                    <th>Score de risque</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in top10 %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>Client n°{{ c.CLIENTNUM }}</td>
+                    <td>{{ c.Customer_Age }} ans</td>
+                    <td>{{ 'Féminin' if c.Gender == 'F' else 'Masculin' }}</td>
+                    <td>
+                        {% set level_class = {'Faible': 'low', 'Moyen': 'medium', 'Élevé': 'high', 'Critique': 'critical'}[c.Risk_Level] %}
+                        <div class="risk-score-cell">
+                            <span class="risk-score-num">{{ c.Risk_Score }}<span class="risk-score-max">/100</span></span>
+                            <span class="risk-badge is-{{ level_class }}">{{ c.Risk_Level }}</span>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+(function () {
+    var ageData = {{ churn_by_age | tojson }};
+    var genderData = {{ churn_by_gender | tojson }};
+
+    var ink = 'oklch(0.24 0.02 260)';
+    var grid = 'oklch(0.89 0.008 250)';
+    var barColor = 'oklch(0.52 0.17 25)';
+
+    var valueLabelPlugin = {
+        id: 'valueLabel',
+        afterDatasetsDraw: function (chart) {
+            var ctx = chart.ctx;
+            chart.data.datasets.forEach(function (dataset, i) {
+                var meta = chart.getDatasetMeta(i);
+                meta.data.forEach(function (bar, index) {
+                    var value = dataset.data[index];
+                    ctx.save();
+                    ctx.fillStyle = ink;
+                    ctx.font = '600 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(value + '%', bar.x, bar.y - 6);
+                    ctx.restore();
+                });
+            });
+        },
+    };
+
+    function barChartOptions(maxValue) {
+        return {
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: { padding: { top: 20 } },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function (ctx) { return ctx.parsed.y + '% de taux de churn'; },
+                    },
+                },
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    suggestedMax: maxValue,
+                    ticks: { callback: function (v) { return v + '%'; }, color: ink },
+                    grid: { color: grid },
+                },
+                x: {
+                    ticks: { color: ink },
+                    grid: { display: false },
+                },
+            },
+        };
+    }
+
+    new Chart(document.getElementById('chart-age'), {
+        type: 'bar',
+        data: {
+            labels: ageData.labels,
+            datasets: [{ data: ageData.values, backgroundColor: barColor, borderRadius: 4, maxBarThickness: 40 }],
+        },
+        options: barChartOptions(Math.max.apply(null, ageData.values) * 1.25),
+        plugins: [valueLabelPlugin],
+    });
+
+    new Chart(document.getElementById('chart-gender'), {
+        type: 'bar',
+        data: {
+            labels: genderData.labels,
+            datasets: [{ data: genderData.values, backgroundColor: barColor, borderRadius: 4, maxBarThickness: 60 }],
+        },
+        options: barChartOptions(Math.max.apply(null, genderData.values) * 1.25),
+        plugins: [valueLabelPlugin],
+    });
+})();
+</script>
+{% endblock %}

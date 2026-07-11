@@ -6,9 +6,31 @@
         <div class="result-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
         </div>
-        <span class="status-pill is-stable" style="margin-bottom: var(--space-3);">Client stable</span>
+        {% if probability is not none %}
+        <div class="risk-score-block">
+            <span class="risk-score-label">Risk Score</span>
+            <span class="risk-score-num">{{ probability }}<span class="risk-score-max">/100</span></span>
+            {% set level_class = {'Faible': 'low', 'Moyen': 'medium', 'Élevé': 'high', 'Critique': 'critical'}[level] %}
+            <span class="risk-badge is-{{ level_class }}">{{ level }}</span>
+        </div>
+        {% endif %}
         <h1>{{ prediction_text }}</h1>
         <p>Aucun signal de résiliation détecté pour ce profil. Aucune action de rétention prioritaire n'est nécessaire.</p>
+
+        {% if reasons %}
+        <div class="reasons">
+            <h2 class="reasons-title">Pourquoi ?</h2>
+            <ul class="reason-list">
+                {% for reason in reasons %}
+                <li>
+                    <span class="reason-label">{{ reason.label }}</span>
+                    <span class="reason-share is-stable">+{{ reason.share }}%</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
         <a class="btn btn-primary" href="{{ url_for('Predic_form') }}">Tester un autre client</a>
     </div>
 </div>

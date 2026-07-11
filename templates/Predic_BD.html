@@ -65,7 +65,7 @@
                     <th title="Montant total des transactions sur les 12 derniers mois">Transactions (12 mois)</th>
                     <th title="Part de la limite de crédit actuellement utilisée">Utilisation crédit</th>
                     <th title="Statut réellement observé pour ce client dans l'historique">Statut historique</th>
-                    <th title="Ce que le modèle aurait prédit pour ce client">Prédiction du modèle</th>
+                    <th title="Probabilité de départ estimée par le modèle, sur 100">Score de risque</th>
                     <th title="Le modèle a-t-il vu juste par rapport au statut historique ?">Concordance</th>
                 </tr>
             </thead>
@@ -92,15 +92,11 @@
                         </span>
                     </td>
                     <td>
-                        <span class="status-pill {{ 'is-risk' if 'Attrited' in data[8] else 'is-stable' }}">
-                            {% if 'Attrited' in data[8] %}
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path></svg>
-                            À risque
-                            {% else %}
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
-                            Stable
-                            {% endif %}
-                        </span>
+                        {% set level_class = {'Faible': 'low', 'Moyen': 'medium', 'Élevé': 'high', 'Critique': 'critical'}[data[10]] %}
+                        <div class="risk-score-cell">
+                            <span class="risk-score-num">{{ data[9] }}<span class="risk-score-max">/100</span></span>
+                            <span class="risk-badge is-{{ level_class }}">{{ data[10] }}</span>
+                        </div>
                     </td>
                     <td>
                         {% if data[7] == data[8] %}

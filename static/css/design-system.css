@@ -28,6 +28,14 @@
   --danger-tint: oklch(0.94 0.045 25);
   --danger-ink: oklch(0.32 0.13 25);
 
+  --warning: oklch(0.62 0.15 75);
+  --warning-tint: oklch(0.94 0.05 75);
+  --warning-ink: oklch(0.35 0.11 75);
+
+  --orange: oklch(0.58 0.17 45);
+  --orange-tint: oklch(0.94 0.06 45);
+  --orange-ink: oklch(0.36 0.13 45);
+
   --focus-ring: oklch(0.62 0.15 258);
 
   /* --- Type -------------------------------------------------------------- */
@@ -529,6 +537,62 @@ main {
   color: var(--ink-muted);
 }
 
+/* --- Dashboard: KPI row -------------------------------------------------------------- */
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.stat-tile {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.stat-label {
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+}
+
+.stat-value {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.stat-value-max {
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--ink-faint);
+}
+
+/* --- Dashboard: charts ---------------------------------------------------------------- */
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+.chart-card h2 {
+  font-size: var(--text-md);
+  margin-bottom: var(--space-4);
+}
+
+.chart-canvas-wrap {
+  position: relative;
+  height: 260px;
+}
+
 .empty-state {
   padding: var(--space-6);
   text-align: center;
@@ -645,7 +709,7 @@ tbody tr:hover td {
 }
 
 .result-card {
-  max-width: 480px;
+  max-width: 540px;
   width: 100%;
   text-align: center;
   background: var(--surface);
@@ -695,6 +759,134 @@ tbody tr:hover td {
 .result-card p {
   color: var(--ink-muted);
   margin: 0 auto var(--space-6);
+}
+
+.risk-score-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+.risk-score-label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.risk-score-num {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.risk-score-max {
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--ink-faint);
+}
+
+/* --- Risk level badge (Faible / Moyen / Élevé / Critique) ------------------------- */
+
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.risk-badge.is-low {
+  background: var(--success-tint);
+  color: var(--success-ink);
+}
+
+.risk-badge.is-medium {
+  background: var(--warning-tint);
+  color: var(--warning-ink);
+}
+
+.risk-badge.is-high {
+  background: var(--orange-tint);
+  color: var(--orange-ink);
+}
+
+.risk-badge.is-critical {
+  background: var(--danger-tint);
+  color: var(--danger-ink);
+}
+
+.risk-score-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+
+.risk-score-cell .risk-score-num {
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.risk-score-cell .risk-score-max {
+  font-size: var(--text-xs);
+}
+
+/* --- Reasons ("why") list --------------------------------------------------------- */
+
+.reasons {
+  text-align: left;
+  margin-bottom: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+
+.reasons-title {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-3);
+}
+
+.reason-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.reason-list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+}
+
+.reason-label {
+  color: var(--ink);
+}
+
+.reason-share {
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.reason-share.is-risk {
+  color: var(--danger-ink);
+}
+
+.reason-share.is-stable {
+  color: var(--success-ink);
 }
 
 /* --- Reveal-on-load motion ------------------------------------------------------- */

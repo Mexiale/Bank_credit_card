@@ -3,14 +3,41 @@
 Author : Mexiale
 """
 
+import json
 import numpy as np
 import pandas as pd
 from flask import Flask, request, jsonify, render_template
 import pickle
 import sqlite3 as sql
 
+import explain
+import dashboard
+
+FEATURES = [
+    'Gender', 'Customer_Age', 'Total_Relationship_Count', 'Months_Inactive_12_mon',
+    'Total_Revolving_Bal', 'Total_Trans_Amt', 'Avg_Utilization_Ratio',
+]
+
+
+def risk_level(score):
+    """Maps a 0-100 churn risk score to a 4-tier qualitative label."""
+    if score >= 75:
+        return 'Critique'
+    if score >= 50:
+        return 'Élevé'
+    if score >= 25:
+        return 'Moyen'
+    return 'Faible'
+
 app = Flask(__name__)
 model = pickle.load(open('model.pkl', 'rb'))
+EXPLAINER_KIND, EXPLAINER = explain.build_explainer(model)
+
+try:
+    with open('model_metrics.json', encoding='utf-8') as f:
+        MODEL_METRICS = json.load(f)
+except FileNotFoundError:
+    MODEL_METRICS = None
 
 @app.template_filter('thousands')
 def thousands_filter(value):
@@ -21,35 +48,43 @@ def thousands_filter(value):
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index.html', metrics=MODEL_METRICS)
 
 @app.route('/predict',methods=['POST'])
 def Predict():
-    
-    int_features = [float(x) for x in request.form.values()]
-    final_features = [np.array(int_features)]
+
+    values = [float(x) for x in request.form.values()]
+    final_features = pd.DataFrame([values], columns=FEATURES)
     prediction = model.predict(final_features)
+    proba = model.predict_proba(final_features)[0]
 
     output = round(prediction[0], 2)
+    reasons = explain.explain(model, EXPLAINER_KIND, EXPLAINER, final_features, output)
+    churn_probability = round(proba[1] * 100)
+    level = risk_level(churn_probability)
 
     if output == 1:
-        return render_template('Answers1.html', prediction_text = 'Le client va se désabonner')
+        return render_template(
+            'Answers1.html', prediction_text='Le client va se désabonner',
+            probability=churn_probability, level=level, reasons=reasons,
+        )
     else:
-        return render_template('Answers0.html', prediction_text='Le client ne va pas se désabonner')
+        return render_template(
+            'Answers0.html', prediction_text='Le client ne va pas se désabonner',
+            probability=churn_probability, level=level, reasons=reasons,
+        )
 
 @app.route('/predict_api',methods=['POST'])
 def predict_api():
     data = request.get_json(force = True)
-    prediction = model.predict([np.array(list(data.values()))])
+    final_features = pd.DataFrame([data])[FEATURES].astype(float)
+    prediction = model.predict(final_features)
 
     output = prediction[0]
-    return jsonify(output)
+    return jsonify(int(output))
 
 
-CLIENT_BANK_COLUMNS = [
-    'Gender', 'Customer_Age', 'Total_Relationship_Count', 'Months_Inactive_12_mon',
-    'Total_Revolving_Bal', 'Total_Trans_Amt', 'Avg_Utilization_Ratio', 'Attrition_Flag',
-]
+CLIENT_BANK_COLUMNS = FEATURES + ['Attrition_Flag']
 
 @app.route('/search', methods=['POST', 'GET'])
 def list():
@@ -98,6 +133,8 @@ def list():
     datas['Gender'] = datas['Gender'].replace({'M': 1, 'F': 0})
     features = datas.drop(['Attrition_Flag'], axis=1)
     datas['Prediction'] = model.predict(features)
+    datas['Risk_Score'] = (model.predict_proba(features)[:, 1] * 100).round().astype(int)
+    datas['Risk_Level'] = datas['Risk_Score'].apply(risk_level)
     datas['Gender'] = datas['Gender'].replace({1: 'M', 0: 'F'})
     datas['Prediction'] = datas['Prediction'].replace({0: 'Existing Customer', 1: 'Attrited Customer'})
 
@@ -127,6 +164,11 @@ def Predic_form():
 @app.route('/Predic_BD')
 def Predic_BD():
     return render_template("Predic_BD.html")
+
+@app.route('/dashboard')
+def dashboard_view():
+    data = dashboard.build_dashboard_data(model, risk_level)
+    return render_template('Dashboard.html', **data)
 
 ''' if __name__ == "__main__":
     app.run(debug=True) '''

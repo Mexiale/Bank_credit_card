@@ -10,10 +10,13 @@
             en quelques secondes, s'il est sur le point de résilier son service de carte
             bancaire — et agir avant qu'il ne parte.
         </p>
+        {% if metrics %}
         <p class="stat-line">
-            <span>Précision globale <strong>97%</strong></span>
-            <span>Sensibilité <strong>98%</strong></span>
+            <span>Précision globale <strong>{{ (metrics.accuracy * 100) | round(1) }}%</strong></span>
+            <span>Sensibilité <strong>{{ (metrics.recall * 100) | round(1) }}%</strong></span>
+            <span>Modèle <strong>{{ metrics.model }}</strong></span>
         </p>
+        {% endif %}
         <div class="actions">
             <a href="{{ url_for('Predic_form') }}" class="btn btn-primary">Prédire un client</a>
             <a href="{{ url_for('Predic_BD') }}" class="btn btn-secondary">Explorer la base de données</a>

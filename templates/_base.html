@@ -32,6 +32,7 @@
                 <a href="{{ url_for('home') }}" class="{{ 'is-active' if request.path == url_for('home') else '' }}">Accueil</a>
                 <a href="{{ url_for('Predic_form') }}" class="{{ 'is-active' if request.path == url_for('Predic_form') else '' }}">Prédiction Formulaire</a>
                 <a href="{{ url_for('Predic_BD') }}" class="{{ 'is-active' if request.path == url_for('Predic_BD') else '' }}">Prédiction Base de Données</a>
+                <a href="{{ url_for('dashboard_view') }}" class="{{ 'is-active' if request.path == url_for('dashboard_view') else '' }}">Dashboard</a>
             </nav>
         </header>
 

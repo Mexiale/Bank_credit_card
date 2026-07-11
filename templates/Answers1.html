@@ -6,9 +6,31 @@
         <div class="result-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path></svg>
         </div>
-        <span class="status-pill is-risk" style="margin-bottom: var(--space-3);">Client à risque</span>
+        {% if probability is not none %}
+        <div class="risk-score-block">
+            <span class="risk-score-label">Risk Score</span>
+            <span class="risk-score-num">{{ probability }}<span class="risk-score-max">/100</span></span>
+            {% set level_class = {'Faible': 'low', 'Moyen': 'medium', 'Élevé': 'high', 'Critique': 'critical'}[level] %}
+            <span class="risk-badge is-{{ level_class }}">{{ level }}</span>
+        </div>
+        {% endif %}
         <h1>{{ prediction_text }}</h1>
         <p>Ce profil présente un risque élevé de résiliation. Une action de rétention est recommandée dès que possible.</p>
+
+        {% if reasons %}
+        <div class="reasons">
+            <h2 class="reasons-title">Pourquoi ?</h2>
+            <ul class="reason-list">
+                {% for reason in reasons %}
+                <li>
+                    <span class="reason-label">{{ reason.label }}</span>
+                    <span class="reason-share is-risk">+{{ reason.share }}%</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
         <a class="btn btn-primary" href="{{ url_for('Predic_form') }}">Tester un autre client</a>
     </div>
 </div>
