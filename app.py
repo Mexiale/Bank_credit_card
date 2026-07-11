@@ -65,14 +65,14 @@ def list():
     rows = cur.fetchall(); 
     datas = np.array(rows)
     datas = pd.DataFrame(datas, columns=['Gender', 'Customer_Age', 'Total_Relationship_Count', 'Months_Inactive_12_mon', 'Total_Revolving_Bal', 'Total_Trans_Amt', 'Avg_Utilization_Ratio', 'Attrition_Flag'])
-    datas['Gender'].replace({'M': 1, 'F': 0}, inplace=True)
+    datas['Gender'] = datas['Gender'].replace({'M': 1, 'F': 0})
     features = datas.drop(['Attrition_Flag'], axis=1)
     prediction = model.predict(features)
     ypred = prediction.reshape(int(nb), 1)
     ypred = pd.DataFrame(ypred, columns=['Prediction'])
     datas = pd.concat([datas, ypred], axis=1)
-    datas['Gender'].replace({1: 'M', 0: 'F'}, inplace=True)
-    datas['Prediction'].replace({0: 'Existing Customer', 1: 'Attrited Customer'}, inplace=True)
+    datas['Gender'] = datas['Gender'].replace({1: 'M', 0: 'F'})
+    datas['Prediction'] = datas['Prediction'].replace({0: 'Existing Customer', 1: 'Attrited Customer'})
     return render_template("Predic_BD.html",datas = datas.values.tolist())
 
 @app.route('/Predic_form')
