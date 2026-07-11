@@ -1,35 +1,15 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Answers</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-  crossorigin="anonymous">
-  <style>
-      body{
-          background-color: cornflowerblue;
-          text-align: center;
-      }
-      h1{
-          color: cornflowerblue;
-      }
-      .jumbotron{
-        background-color: ghostwhite;
-        padding: 0;
-    }
-  </style>
-</head>
-<body> 
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="jumbotron">
-                        <h1>Le client est sur le point de se désabonner !</h1>
-                            <p style="font-size:100px">&#128542;</p>
-                    </div>
-                </div>
-            </div>
-    
-</body>
-</html>
+{% extends "_base.html" %}
+{% block title %}Client à risque — Bank Prediction{% endblock %}
+{% block content %}
+<div class="result-shell">
+    <div class="result-card is-risk" data-reveal>
+        <div class="result-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path></svg>
+        </div>
+        <span class="status-pill is-risk" style="margin-bottom: var(--space-3);">Client à risque</span>
+        <h1>{{ prediction_text }}</h1>
+        <p>Ce profil présente un risque élevé de résiliation. Une action de rétention est recommandée dès que possible.</p>
+        <a class="btn btn-primary" href="{{ url_for('Predic_form') }}">Tester un autre client</a>
+    </div>
+</div>
+{% endblock %}

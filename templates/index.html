@@ -1,76 +1,23 @@
-<!-- Page web de la prédiction d'un client 
-pour savoir si oui ou non il désouscria au service de carted bancaire  -->
-
-<!DOCTYPE HTML>
-<html lang="fr">
-	<head>
-		<title>Acceuil</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
-		<link rel="stylesheet" href="../static/css/main2.css" />
-		<noscript><link rel="stylesheet" href="../static/css/noscript.css" /></noscript>
-	</head>
-	<body class="landing is-preload">
-		<!-- Page Wrapper -->
-			<div id="page-wrapper">
-				<!-- Header -->
-					<header id="header" class="alt">
-						<h1><a href="index.html">Prédiction</a></h1>
-						<nav id="nav">
-							<ul>
-								<li class="special">
-									<a href="#menu" class="menuToggle"><span>Menu</span></a>
-									<div id="menu">
-										<ul>
-											<li><a href="index.html">Acceuil</a></li>
-											<li><a href="{{ url_for('Predic_form')}}">Prédiction Formulaire</a></li>
-											<li><a href="{{ url_for('Predic_BD')}}">Prédiction Base de Données</a></li>
-										</ul>
-									</div>
-								</li>
-							</ul>
-						</nav>
-					</header>
-
-				<!-- Banner -->
-					<section id="banner">
-						<div class="inner">
-							<h2>Prédiction</h2>
-							<h1>Bank Prediction</h1>
-							<h4>Ce site a été créer dans le but de réduire le nombre <br>de clients qui quittent le service de carte de crédit <br>d'une banque. Vous pourez anticiper le départ de ses <br>clients en remplissant un formulaire d'information propre au client.<br><br>Précision globale: 97%    Sensibilité : 98%</h4>
-						
-							 						
-							<ul class="actions special">
-								<li><a href="#menu" class="button" font-size="30px">Prédire</a></li>
-							</ul>
-						</div>
-						<!-- Lien vers le dépôt github -->
-						<a href="https://github.com/Mexiale/Bank_credit_card" class="more scrolly">En savoir plus</a>
-					</section>
-
-				<!-- Footer -->
-					<footer id="footer">
-						<ul class="icons">
-							<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-							<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-							<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-							<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-							<li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
-						</ul>
-						<ul class="copyright">
-							<li>&copy; </li><li>Design: <a href="#">By Grace Mexiale</a></li>
-						</ul>
-					</footer>
-
-			</div>
-
-		<!-- Scripts -->
-			<script src="../static/vendor/jquery/jquery.min.js"></script>
-			<script src="../static/vendor/jquery/jquery.scrollex.min.js"></script>
-			<script src="../static/vendor/jquery/jquery.scrolly.min.js"></script>
-			<script src="../static/vendor/jquery/browser.min.js"></script>
-			<script src="../static/vendor/jquery/breakpoints.min.js"></script>
-			<script src="../static/vendor/jquery/util.js"></script>
-			<script src="../static/js/main.js"></script>
-	</body>
-</html>
+{% extends "_base.html" %}
+{% block title %}Bank Prediction — Accueil{% endblock %}
+{% block content %}
+<section class="banner">
+    <div class="banner-inner" data-reveal>
+        <span class="eyebrow">Rétention client</span>
+        <h1>Anticiper le départ des clients carte de crédit</h1>
+        <p class="lede">
+            Renseignez le profil d'un client ou interrogez la base existante pour savoir,
+            en quelques secondes, s'il est sur le point de résilier son service de carte
+            bancaire — et agir avant qu'il ne parte.
+        </p>
+        <p class="stat-line">
+            <span>Précision globale <strong>97%</strong></span>
+            <span>Sensibilité <strong>98%</strong></span>
+        </p>
+        <div class="actions">
+            <a href="{{ url_for('Predic_form') }}" class="btn btn-primary">Prédire un client</a>
+            <a href="{{ url_for('Predic_BD') }}" class="btn btn-secondary">Explorer la base de données</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

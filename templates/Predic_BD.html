@@ -1,107 +1,125 @@
-<!DOCTYPE HTML>
-<html lang="fr">
-	<head>
-		<title>Prédiction BD</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="../static/css/main2.css" />
-		<noscript><link rel="stylesheet" href="../static/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+{% extends "_base.html" %}
+{% block title %}Prédiction Base de Données — Bank Prediction{% endblock %}
+{% block content %}
+<div class="content">
+    <div class="card-heading" data-reveal>
+        <h2>Prédiction depuis la base de données</h2>
+        <p>
+            Tirez un échantillon de clients déjà connus (dont on sait s'ils sont réellement partis ou non) et
+            comparez ce statut historique à ce que le modèle aurait prédit — utile pour juger de sa fiabilité.
+        </p>
+    </div>
 
-		<!-- Page Wrapper -->
-			<div id="page-wrapper">
+    <form class="inline-query" action="{{ url_for('list') }}" method="post" data-reveal>
+        <div class="field">
+            <label for="nombre">Nombre de clients</label>
+            <input id="nombre" type="number" min="1" max="200" name="nombre" placeholder="Ex : 10" value="{{ nb | default(10) }}">
+        </div>
+        <div class="field">
+            <label for="genre">Sexe</label>
+            <select id="genre" name="genre">
+                <option value="" {{ 'selected' if not genre }}>Tous</option>
+                <option value="F" {{ 'selected' if genre == 'F' }}>Féminin</option>
+                <option value="M" {{ 'selected' if genre == 'M' }}>Masculin</option>
+            </select>
+        </div>
+        <div class="field">
+            <label for="statut">Statut prédit</label>
+            <select id="statut" name="statut">
+                <option value="" {{ 'selected' if not statut }}>Tous</option>
+                <option value="risque" {{ 'selected' if statut == 'risque' }}>À risque uniquement</option>
+                <option value="stable" {{ 'selected' if statut == 'stable' }}>Stable uniquement</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Valider</button>
+    </form>
 
-				<!-- Header -->
-					<header id="header">
-						<h4>Prédiction avec la Base de Données</h4>	
-						<nav id="nav">
-							<ul>
-								<li class="special">
-									<a href="#menu" class="menuToggle"><span>Menu</span></a>
-									<div id="menu">
-										<ul>
-											<li><a href="\">Acceuil</a></li>
-											<li><a href="{{ url_for('Predic_form')}}">Prédiction Formulaire</a></li>
-											<li><a href="{{ url_for('Predic_BD')}}">Prédiction Base de Données</a></li>											
-										</ul>
-									</div>
-								</li>
-							</ul>
-						</nav>
-					</header>
+    {% if stats %}
+    <div class="summary-bar" data-reveal>
+        <div class="summary-item">
+            <span class="summary-value">{{ stats.total }}</span>
+            <span class="summary-label">client{{ 's' if stats.total > 1 else '' }} analysé{{ 's' if stats.total > 1 else '' }}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-value is-risk">{{ stats.at_risk }}</span>
+            <span class="summary-label">à risque ({{ stats.at_risk_pct }}%)</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-value is-stable">{{ stats.match_pct }}%</span>
+            <span class="summary-label">de concordance avec le statut historique</span>
+        </div>
+    </div>
+    {% endif %}
 
-				<!-- Main -->
-					<article id="main">
-						<header>
-							<div>
-								<form class="form-inline" action="{{ url_for('list')}}"method="post">
-									<h1 style="color: cornflowerblue;">Preference</h1>
-									<input type="text" name="nombre" class="form" placeholder="Entrer le nombre de personnes">
-									
-								<button type="submit" class="btn btn-primary my-1">Valider</button>
-							  </form>
-							</div>							
-						</header>
-						<table>
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>Gender</th>
-									<th>Customer_Age</th>
-									<th>Total_Relationship_Count</th>
-									<th>Months_Inactive_12_mon</th>
-									<th>Total_Revolving_Bal</th>
-									<th>Total_Trans_Amt</th>
-									<th>Avg_Utilization_Ratio</th>
-									<th>Attrition_Flag</th>
-									<th>Prédiction</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for data in datas %}
-									<tr>
-										<td></td>
-										<td>{{data[0]}}</td>
-										<td>{{data[1]}}</td>
-										<td>{{data[2]}}</td>
-										<td>{{data[3]}}</td>
-										<td>{{data[4]}}</td>
-										<td>{{data[5]}}</td>
-										<td>{{data[6]}}</td>
-										<td>{{data[7]}}</td>
-										<td>{{data[8]}}</td>
-									</tr>
-								{% endfor %}
-							
-							</tbody>
-						</table>						
-					</article>
-
-				<!-- Footer -->
-					<footer id="footer">
-						<ul class="icons">
-							<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-							<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-							<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-							<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-							<li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
-						</ul>
-						<ul class="copyright">
-							<li>&copy; </li><li>Design: <a>by Grace Mexiale</a></li>
-						</ul>
-					</footer>
-
-			</div>
-
-		<!-- Scripts -->
-		<script src="../static/vendor/jquery/jquery.min.js"></script>
-		<script src="../static/vendor/jquery/jquery.scrollex.min.js"></script>
-		<script src="../static/vendor/jquery/jquery.scrolly.min.js"></script>
-		<script src="../static/vendor/jquery/browser.min.js"></script>
-		<script src="../static/vendor/jquery/breakpoints.min.js"></script>
-		<script src="../static/vendor/jquery/util.js"></script>
-		<script src="../static/js/main.js"></script>
-
-	</body>
-</html>
+    {% if datas %}
+    <div class="table-wrap" data-reveal>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Sexe</th>
+                    <th>Âge</th>
+                    <th title="Nombre de produits bancaires détenus par le client">Produits détenus</th>
+                    <th title="Nombre de mois sans activité sur les 12 derniers mois">Inactivité</th>
+                    <th title="Solde renouvelable (crédit utilisé et non remboursé)">Solde renouvelable</th>
+                    <th title="Montant total des transactions sur les 12 derniers mois">Transactions (12 mois)</th>
+                    <th title="Part de la limite de crédit actuellement utilisée">Utilisation crédit</th>
+                    <th title="Statut réellement observé pour ce client dans l'historique">Statut historique</th>
+                    <th title="Ce que le modèle aurait prédit pour ce client">Prédiction du modèle</th>
+                    <th title="Le modèle a-t-il vu juste par rapport au statut historique ?">Concordance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in datas %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ 'Féminin' if data[0] == 'F' else 'Masculin' }}</td>
+                    <td>{{ data[1] }} ans</td>
+                    <td>{{ data[2] }}</td>
+                    <td>{{ data[3] }} mois</td>
+                    <td>{{ data[4] | thousands }}</td>
+                    <td>{{ data[5] | thousands }}</td>
+                    <td>{{ (data[6] * 100) | round(1) }}%</td>
+                    <td>
+                        <span class="status-pill {{ 'is-risk' if 'Attrited' in data[7] else 'is-stable' }}">
+                            {% if 'Attrited' in data[7] %}
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path></svg>
+                            Parti
+                            {% else %}
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+                            Resté
+                            {% endif %}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="status-pill {{ 'is-risk' if 'Attrited' in data[8] else 'is-stable' }}">
+                            {% if 'Attrited' in data[8] %}
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path></svg>
+                            À risque
+                            {% else %}
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+                            Stable
+                            {% endif %}
+                        </span>
+                    </td>
+                    <td>
+                        {% if data[7] == data[8] %}
+                        <span class="concordance is-match" title="Le modèle a bien prédit le statut historique">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+                        </span>
+                        {% else %}
+                        <span class="concordance is-mismatch" title="Le modèle s'est trompé sur ce client">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        </span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% elif stats %}
+    <p class="empty-state" data-reveal>Aucun client ne correspond à ces critères. Essayez d'élargir les filtres.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,34 +1,15 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Answers</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-  crossorigin="anonymous">
-  <style>
-    body{
-        background-color: cornflowerblue;
-        text-align: center;
-    }
-    h1{
-        color: cornflowerblue;
-    }
-    .jumbotron{
-        background-color: ghostwhite;
-        padding: 0;
-    }
-</style>
-</head>
-<body>   
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="jumbotron">
-                        <h1>Le client n'est pas sur le point de se désabonner</h1>
-                            <p style="font-size:100px">&#128578;</p>
-                    </div>
-                </div>
-            </div>    
-</body>
-</html>
+{% extends "_base.html" %}
+{% block title %}Client stable — Bank Prediction{% endblock %}
+{% block content %}
+<div class="result-shell">
+    <div class="result-card is-stable" data-reveal>
+        <div class="result-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+        </div>
+        <span class="status-pill is-stable" style="margin-bottom: var(--space-3);">Client stable</span>
+        <h1>{{ prediction_text }}</h1>
+        <p>Aucun signal de résiliation détecté pour ce profil. Aucune action de rétention prioritaire n'est nécessaire.</p>
+        <a class="btn btn-primary" href="{{ url_for('Predic_form') }}">Tester un autre client</a>
+    </div>
+</div>
+{% endblock %}

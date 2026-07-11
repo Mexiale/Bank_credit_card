@@ -1,130 +1,59 @@
-<!-- Page web contenant un formulaire pour
-   la prédiction individuel d'un client  -->
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <!--Head -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.7, shrink-to-fit=no">
-    <meta name="robots" content="index">
-    <meta creator="Mexiale" content="">
-    <meta name="keywords" content="">
-
-    <!-- Title Page-->
-    <title>Désabonnement cart App</title>
-
-    <!-- Icons font CSS-->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
-    <link href="../static/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-    <link href="../static/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="../static/vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="../static/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
-    <link href="../static/css/main.css" rel="stylesheet" media="all">
-</head>
-
-<body class = "landing">
-    <!-- Formulaire de prédiction d'un seul client -->
-    <div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
-        <div class="wrapper wrapper--w790">
-            <div class="card card-5">
-                <div class="card-heading">
-                    <h2 class="title">Formulaire du client</h2>
-                </div>
-                <div class="card-body">
-                    <form action="{{ url_for('Predict')}}"method="post">
-                        <div class="form-row">
-                            <div class="name">Sexe</div>
-                             <div class="value">
-                                <div class="input-group">
-                                        <select name="Gender" class="input--style-2">
-                                            <option disabled="disabled" selected="selected">Choissisez le sexe du client (Ex: Feminin)</option>
-                                            <option value="0">Feminin</option>
-                                            <option value="1">Masculin</option>
-                                        </select>
-                                        <div class="select-dropdown"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="name">Age</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="text" name="Customer_Age" placeholder="Entrer l'age du client (Ex:40)" required="required">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="name">Produit Total</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="text" name="Total_Relationship_Count" placeholder="Nombre total de produits du client" required="required" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="name">Inactivité</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="text" name="Months_Inactive_12_mon" placeholder="Nbre de mois d'inactivité (12 derniers mois)" required="required" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="name">Solde Total</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="text"  name="Total_Revolving_Bal" placeholder="Solde renouvelable total" required="required" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="name">Opération totale</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="text" name="Total_Trans_Amt" placeholder="Total des transaction (12 derniers mois)" required="required" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="name">Utilisation</div>
-                            <div class="value">
-                                <div class="input-group">
-                                    <input class="input--style-5" type="text" name="Avg_Utilization_Ratio" placeholder="Taux d'utilisation moyen de la carte" required="required" />
-                                </div>
-                            </div>
-                        </div>                        
-                        <div>
-                            <button class="btn" type="submit">Prédiction</button>
-                        </div>
-                        <!-- Lien de retour vers la page d'acceuil --> 
-                        <div>
-                            <a href="\">Retour à l'acceuil</a></li>
-                        </div>
-                        
-                    </form>
-
-                </div>
-            </div>
+{% extends "_base.html" %}
+{% block title %}Prédiction Formulaire — Bank Prediction{% endblock %}
+{% block content %}
+<div class="content content-narrow">
+    <div class="card" data-reveal>
+        <div class="card-heading">
+            <h2>Formulaire du client</h2>
+            <p>Renseignez les informations du client pour estimer son risque de résiliation.</p>
         </div>
+
+        <form action="{{ url_for('Predict') }}" method="post">
+            <div class="field">
+                <label for="Gender">Sexe</label>
+                <select id="Gender" name="Gender" required>
+                    <option value="" disabled selected>Choisissez le sexe du client</option>
+                    <option value="0">Féminin</option>
+                    <option value="1">Masculin</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="Customer_Age">Âge</label>
+                <input id="Customer_Age" type="number" min="18" max="110" name="Customer_Age" placeholder="Ex : 40" required>
+            </div>
+
+            <div class="field">
+                <label for="Total_Relationship_Count">Produits total</label>
+                <input id="Total_Relationship_Count" type="number" min="0" name="Total_Relationship_Count" placeholder="Nombre total de produits du client" required>
+            </div>
+
+            <div class="field">
+                <label for="Months_Inactive_12_mon">Inactivité</label>
+                <input id="Months_Inactive_12_mon" type="number" min="0" max="12" name="Months_Inactive_12_mon" placeholder="Nombre de mois d'inactivité (12 derniers mois)" required>
+                <span class="hint">Sur les 12 derniers mois</span>
+            </div>
+
+            <div class="field">
+                <label for="Total_Revolving_Bal">Solde total</label>
+                <input id="Total_Revolving_Bal" type="number" min="0" step="0.01" name="Total_Revolving_Bal" placeholder="Solde renouvelable total" required>
+            </div>
+
+            <div class="field">
+                <label for="Total_Trans_Amt">Opérations totales</label>
+                <input id="Total_Trans_Amt" type="number" min="0" step="0.01" name="Total_Trans_Amt" placeholder="Total des transactions (12 derniers mois)" required>
+            </div>
+
+            <div class="field">
+                <label for="Avg_Utilization_Ratio">Taux d'utilisation</label>
+                <input id="Avg_Utilization_Ratio" type="number" min="0" max="1" step="0.001" name="Avg_Utilization_Ratio" placeholder="Taux d'utilisation moyen de la carte (0 à 1)" required>
+            </div>
+
+            <div class="form-footer">
+                <a class="back-link" href="{{ url_for('home') }}">&larr; Retour à l'accueil</a>
+                <button class="btn btn-primary" type="submit">Lancer la prédiction</button>
+            </div>
+        </form>
     </div>
-    
-
-    <!-- Jquery JS-->
-    <script src="../static/vendor/jquery/jquery.min.js"></script>
-    <!-- Vendor JS-->
-    <script src="../static/vendor/select2/select2.min.js"></script>
-    <script src="../static/vendor/datepicker/moment.min.js"></script>
-    <script src="../static/vendor/datepicker/daterangepicker.js"></script>
-
-    <!-- Main JS-->
-    <script src="../static/js/global.js">
-
-    </script>
-
-</body>
-
-</html>
-<!-- end document-->
+</div>
+{% endblock %}

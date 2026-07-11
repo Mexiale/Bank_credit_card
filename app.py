@@ -5,29 +5,22 @@ Author : Mexiale
 
 import numpy as np
 import pandas as pd
-from flask import Flask, request, jsonify, render_template, g, abort
+from flask import Flask, request, jsonify, render_template
 import pickle
 import sqlite3 as sql
 
 app = Flask(__name__)
 model = pickle.load(open('model.pkl', 'rb'))
-DATABASE = 'Db.db'
 
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sql.connect(DATABASE)
-    return db
-
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+@app.template_filter('thousands')
+def thousands_filter(value):
+    try:
+        return "{:,.0f}".format(float(value)).replace(',', ' ')
+    except (TypeError, ValueError):
+        return value
 
 @app.route('/')
 def home():
-    cur = get_db().cursor()
     return render_template('index.html')
 
 @app.route('/predict',methods=['POST'])
@@ -53,27 +46,79 @@ def predict_api():
     return jsonify(output)
 
 
+CLIENT_BANK_COLUMNS = [
+    'Gender', 'Customer_Age', 'Total_Relationship_Count', 'Months_Inactive_12_mon',
+    'Total_Revolving_Bal', 'Total_Trans_Amt', 'Avg_Utilization_Ratio', 'Attrition_Flag',
+]
+
 @app.route('/search', methods=['POST', 'GET'])
 def list():
-    nb= 1
+    nb = 10
     if request.form.get('nombre'):
-        nb = request.form['nombre']
+        try:
+            nb = max(1, min(int(request.form['nombre']), 200))
+        except ValueError:
+            nb = 10
+
+    genre = request.form.get('genre', '')
+    statut = request.form.get('statut', '')
+
+    where_clauses = []
+    params = []
+    if genre in ('M', 'F'):
+        where_clauses.append('Gender = ?')
+        params.append(genre)
+    where_sql = ('WHERE ' + ' AND '.join(where_clauses)) if where_clauses else ''
+
+    # A predicted-status filter can only be applied after scoring, so pull a
+    # larger pool up front to have enough matches left after filtering.
+    fetch_n = min(nb * 20, 2000) if statut in ('stable', 'risque') else nb
+
     con = sql.connect("Db.sqlite3")
     con.row_factory = sql.Row
     cur = con.cursor()
-    cur.execute(f"select Gender, Customer_Age, Total_Relationship_Count, Months_Inactive_12_mon, Total_Revolving_Bal, Total_Trans_Amt, Avg_Utilization_Ratio, Attrition_Flag from Client_Bank ORDER BY RANDOM() LIMIT {nb}")
-    rows = cur.fetchall(); 
-    datas = np.array(rows)
-    datas = pd.DataFrame(datas, columns=['Gender', 'Customer_Age', 'Total_Relationship_Count', 'Months_Inactive_12_mon', 'Total_Revolving_Bal', 'Total_Trans_Amt', 'Avg_Utilization_Ratio', 'Attrition_Flag'])
+    cur.execute(
+        f"select Gender, Customer_Age, Total_Relationship_Count, Months_Inactive_12_mon, "
+        f"Total_Revolving_Bal, Total_Trans_Amt, Avg_Utilization_Ratio, Attrition_Flag "
+        f"from Client_Bank {where_sql} ORDER BY RANDOM() LIMIT ?",
+        (*params, fetch_n),
+    )
+    rows = cur.fetchall()
+    con.close()
+
+    context = {'nb': nb, 'genre': genre, 'statut': statut, 'datas': [], 'stats': None}
+    if not rows:
+        return render_template("Predic_BD.html", **context)
+
+    datas = pd.DataFrame(np.array(rows), columns=CLIENT_BANK_COLUMNS)
+    int_cols = ['Customer_Age', 'Total_Relationship_Count', 'Months_Inactive_12_mon',
+                'Total_Revolving_Bal', 'Total_Trans_Amt']
+    datas[int_cols] = datas[int_cols].astype(int)
+    datas['Avg_Utilization_Ratio'] = datas['Avg_Utilization_Ratio'].astype(float)
     datas['Gender'] = datas['Gender'].replace({'M': 1, 'F': 0})
     features = datas.drop(['Attrition_Flag'], axis=1)
-    prediction = model.predict(features)
-    ypred = prediction.reshape(int(nb), 1)
-    ypred = pd.DataFrame(ypred, columns=['Prediction'])
-    datas = pd.concat([datas, ypred], axis=1)
+    datas['Prediction'] = model.predict(features)
     datas['Gender'] = datas['Gender'].replace({1: 'M', 0: 'F'})
     datas['Prediction'] = datas['Prediction'].replace({0: 'Existing Customer', 1: 'Attrited Customer'})
-    return render_template("Predic_BD.html",datas = datas.values.tolist())
+
+    if statut == 'risque':
+        datas = datas[datas['Prediction'] == 'Attrited Customer']
+    elif statut == 'stable':
+        datas = datas[datas['Prediction'] == 'Existing Customer']
+    datas = datas.head(nb)
+
+    total = len(datas)
+    at_risk = int((datas['Prediction'] == 'Attrited Customer').sum())
+    match = int((datas['Attrition_Flag'] == datas['Prediction']).sum())
+    context['stats'] = {
+        'total': total,
+        'at_risk': at_risk,
+        'at_risk_pct': round(at_risk / total * 100) if total else 0,
+        'match': match,
+        'match_pct': round(match / total * 100) if total else 0,
+    }
+    context['datas'] = datas.values.tolist()
+    return render_template("Predic_BD.html", **context)
 
 @app.route('/Predic_form')
 def Predic_form():
