@@ -3,3 +3,4 @@ env311/
 __pycache__/app.cpython-39.pyc
 *.pyc
 catboost_info/
+.playwright-cli/
