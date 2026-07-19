@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: bank-credit-card
+    runtime: python
+    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn wsgi:app --preload --workers 2
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
